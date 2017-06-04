@@ -1,0 +1,34 @@
+{
+  "name": "gerald_bot_v3",
+  "version": "1.0.0",
+  "description": "Twitch version of Gerald Bot",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "node app.js debug"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lcraver/gerald_bot_v2.git"
+  },
+  "keywords": [
+    "bot",
+    "craver",
+    "gerald",
+    "liam",
+    "limestudios",
+    "twitch"
+  ],
+  "author": "Liam Craver",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lcraver/gerald_bot_v2/issues"
+  },
+  "homepage": "https://github.com/lcraver/gerald_bot_v2#readme",
+  "dependencies": {
+    "moment": "^2.18.1",
+    "node-persist": "^2.0.10",
+    "path": "^0.12.7",
+    "tmi.js": "^1.1.2"
+  }
+}
