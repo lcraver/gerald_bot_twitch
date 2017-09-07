@@ -61,6 +61,15 @@ module.exports = [{
 
     displayPluginHelp(client);
   }
+},
+{
+	name: 'Plugin Help',
+	help: 'Links to bot\'s github.',
+  types: ['Chat'],
+  regex: new RegExp(RegExp.escape(Runtime.botAddress + "!gerald")),
+  action: function(client, channel, userstate, message, self) {
+    client.action("limestudios", "Find all my source code here: https://github.com/lcraver/gerald_bot_twitch");
+  }
 }];
 
 
