@@ -20,6 +20,7 @@ Runtime.logger = Logger;
 Runtime.loader = Loader;
 Runtime.helpers = Helpers;
 Runtime.tmi = TMI;
+Runtime.botAddress = "@" + Runtime.credentials.identity.username + " ";
 
 // Verify credentials exist
 if (!Runtime.credentials.identity || !Runtime.credentials.identity.username || !Runtime.credentials.identity.password || !Runtime.credentials.channels) {

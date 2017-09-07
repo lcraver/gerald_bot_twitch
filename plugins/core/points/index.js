@@ -107,15 +107,18 @@ module.exports = [{
     let points = GetPointsForUser(user);
 
     if(points == 1)
-      client.action("limestudios", String.format("{0} you have {1} point", user, points));
+      client.action("limestudios", String.format("@{0} you have {1} point!", user, points));
     else
-      client.action("limestudios", String.format("{0} you have {1} points", user, points));
+      client.action("limestudios", String.format("@{0} you have {1} points!", user, points));
   }
 }];
 
 function GetPointsForUser(_user) {
   let pointsObj = JSON.parse(Runtime.brain.get("points"));
-  return pointsObj["points"][_user];
+  if(_user in pointsObj["points"])
+    return pointsObj["points"][_user];
+  else 
+    return 0;
 }
 
 function GetPointDB() {
