@@ -8,11 +8,12 @@ const Loader = require('./utils/Loader');
 const Helpers = require('./utils/Helpers');
 const ChatBot = require('./utils/ChatBot');
 const TMI = require('tmi.js');
+const clearRequire = require('clear-require');
 require('./utils/Prototypes');
 
 // Build the initial runtime object
 let Runtime = require('./utils/Runtime');
-Runtime.debug = process.argv[2] === 'debug' || false;
+Runtime.debug = Settings["debug"];
 Runtime.credentials = Credentials;
 Runtime.settings = Settings;
 Runtime.brain = Brain;
@@ -20,6 +21,7 @@ Runtime.logger = Logger;
 Runtime.loader = Loader;
 Runtime.helpers = Helpers;
 Runtime.tmi = TMI;
+Runtime.clearRequire = clearRequire;
 Runtime.botAddress = "@" + Runtime.credentials.identity.username + " ";
 
 // Verify credentials exist

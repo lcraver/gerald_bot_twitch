@@ -78,12 +78,17 @@ class ChatBot {
 	}
 
 	static runRecurringPluginCommands(client) {
-		setInterval(function(){
+		
 			Runtime.loadedCommands.Recurring.forEach(function(command) {
-				Runtime.logger.Warning("[Running Recurring Command] -> " + command.name);
-				command.action(client);
+
+				if(command.config == undefined)
+					command.config = 60000
+
+				setInterval(function(){
+					//Runtime.logger.Warning("[Running Recurring Command] -> " + command.name + " every " + command.config);
+					command.action(client);
+				}, command.config);
 			});
-		}, 60000);
 	}
 }
 

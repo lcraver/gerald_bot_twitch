@@ -1,0 +1,13 @@
+{
+    "description": "Basic commands that can be edited to fit the user's needs.",
+    "commands" : {
+        "patreon": "You can find Liam's Patreon at https://www.patreon.com/limestudios",
+        "twitter": "You can find Liam's Twitter at https://twitter.com/liamcraver",
+        "discord": "You can find the Discord at https://discord.gg/DQ7fuwE",
+        "etsy": "You can find my Etsy at https://www.etsy.com/shop/LimeStudios",
+        "game": "You can find Project Arrhythmia at http://projectarrhythmia.com",
+        "steam": "You can find Project Arrhythmia at http://store.steampowered.com/app/440310/Project_Arrhythmia/",
+        "code": "Find all my source code here: https://github.com/lcraver/gerald_bot_twitch",
+        "bot": "Find all my source code here: https://github.com/lcraver/gerald_bot_twitch"
+    }
+}

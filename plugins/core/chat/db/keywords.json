@@ -1,0 +1,17 @@
+{
+  "single" : {
+    "hello": ["greeting"],
+    "hi": ["greeting"],
+    "hiya": ["greeting"],
+    "bot": ["self"],
+    "you": ["self"],
+    "gerald": ["self"],
+    "?": ["question"]
+  },
+  "multi": {
+    "how is it going": ["greeting"],
+    "what is up": ["greeting"],
+    "what is new": ["greeting"],
+    "good morning": ["greeting"]
+  }
+}

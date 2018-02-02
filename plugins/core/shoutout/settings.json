@@ -1,0 +1,22 @@
+{
+    "description": "Recurring shoutouts in chat",
+    "shoutouts" : [
+        {
+            "text":[
+                "Check out my Discord! -> https://discord.gg/DQ7fuwE",
+                "Consider supporting Liam on Patreon -> https://www.patreon.com/limestudios",
+                "Might want to save your project eh Liam?",
+                "Want to stay up to date? Follow Liam on Twitter -> https://twitter.com/liamcraver",
+                "Like cool things? Consider checking out my Etsy! -> https://www.etsy.com/shop/LimeStudios",
+                "Might want to save your project eh Liam?"
+            ],
+            "time":"10"
+        },
+        {
+            "text":[
+                "Want to know when I go live? Consider following ;)"
+            ],
+            "time":"10"
+        }
+    ]
+}

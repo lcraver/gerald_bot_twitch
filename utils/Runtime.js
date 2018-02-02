@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	debug: false,
+	debug: true,
 	credentials: null,
 	settings: null,
 	brain: null,

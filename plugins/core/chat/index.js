@@ -1,19 +1,14 @@
 'use strict';
 
 const Runtime = require('../../../utils/Runtime');
+const pluginSettings = require('./settings');
+let keywordDB = require('./db/keywords');
+let emotionsDB = require('./db/emotions');
+let contractionsDB = require('./db/contractions');
 
 // ---- Functions ---- //
 
 module.exports = [{
-	name: 'Chat [Connect]',
-	help: 'Captures messages to gerald and chats with user.',
-  types: ['Connect'],
-  action: function(client) {
-    //client.action("limestudios", "Hello everyone Gerald is here!");
-		//Runtime.logger.Error("Connected");
-  }
-},
-{
 	name: 'Chat [Join]',
 	help: 'Captures messages to gerald and chats with user.',
   types: ['Join'],
@@ -24,63 +19,85 @@ module.exports = [{
   }
 },
 {
-	name: 'Chat [Part]',
-	help: 'Captures messages to gerald and chats with user.',
-  types: ['Part'],
-  action: function(client, channel, user, self) {
-    //client.action("limestudios", String.format("Bye {0}!", user));
-		//Runtime.logger.Error("Parted");
-  }
-},
-{
-	name: 'Chat [Chat]',
-	help: 'Test command to see if gerald is on.',
-  types: ['Chat'],
-  regex: new RegExp(RegExp.escape(Runtime.botAddress + "test")),
-  action: function(client, channel, userstate, message, self) {
-    client.action("limestudios", "Hello!");
-		Runtime.logger.Error("Chat");
-  }
-},
-{
-	name: 'Chat Help',
-	help: 'Tells you all the help documentation for the Bot\'s chat.',
-  types: ['Chat'],
-  regex: new RegExp(RegExp.escape(Runtime.botAddress + "chat help")),
-  action: function(client, channel, userstate, message, self) {
-
-    displayCommandHelp(client);
-  }
-},
-{
-	name: 'Plugin Help',
-	help: 'Tells you all the help documentation for the Bot\'s chat.',
-  types: ['Chat'],
-  regex: new RegExp(RegExp.escape(Runtime.botAddress + "plugin help")),
-  action: function(client, channel, userstate, message, self) {
-
-    displayPluginHelp(client);
-  }
-},
-{
 	name: 'Plugin Help',
 	help: 'Links to bot\'s github.',
   types: ['Chat'],
-  regex: new RegExp(RegExp.escape(Runtime.botAddress + "!gerald")),
+  regex: new RegExp(RegExp.escape(Runtime.botAddress) + ".+"),
   action: function(client, channel, userstate, message, self) {
-    client.action("limestudios", "Find all my source code here: https://github.com/lcraver/gerald_bot_twitch");
+
+    if(Runtime.debug) {
+      Runtime.logger.Error("DEBUG");
+      Runtime.clearRequire.all();
+
+      keywordDB = require('./db/keywords');
+      emotionsDB = require('./db/emotions');
+      contractionsDB = require('./db/contractions');
+    }
+
+    message = message.replace(Runtime.botAddress, ""); // Remove bot reference from message
+
+    client.action("limestudios", "Messaged recieved -> [" + message + "]");
+
+    // Find all keywords and emotions
+
+    let messageKeywords = [];
+    let currentStart = 0;
+
+    message = cleanInputMessage(message);
+
+    client.action("limestudios", "Cleaned message -> [" + message + "]");
+
+    let messageWords = message.split(' ');
+    messageWords.forEach(word => {
+      if (word in keywordDB["single"]) 
+      {
+        for(var i = 0; i < keywordDB["single"][word].length; i++) {
+          messageKeywords.push(keywordDB["single"][word][i]);
+        }
+      }
+
+      for(var multiWord in keywordDB["multi"]) {
+        let key = multiWord;
+        let val = keywordDB[multiWord];
+        let regexStr = "^" + RegExp.escape(key) + "[" + RegExp.escape(".?! ,") + "]";
+        let regex = new RegExp(regexStr);
+
+        if(message.substring(currentStart).match(regex))
+        {
+          for(var i = 0; i < keywordDB["multi"][key].length; i++) {
+            messageKeywords.push(keywordDB["multi"][key][i]);
+          }
+        }
+      }
+      
+      currentStart += 1 + word.length;
+    });
+
+    client.action("limestudios", "Keywords -> [" + messageKeywords + "]");
   }
 }];
 
+function cleanInputMessage(_message) {
 
-function displayCommandHelp(client) {
-  Runtime.loadedCommands["Chat"].forEach(function(element) {
-    client.action("limestudios", element.name + " : " + element.regex + " -> " + element.help);
-  }, this);
-}
+  // Add buffer space
+  _message = " " + _message + " "
+  
+  // Get rid of uppercase
+  _message = _message.toLowerCase();
 
-function displayPluginHelp(client) {
-  Runtime.loadedPlugins.forEach(function(element) {
-    client.action("limestudios", element.name + " -> " + element.description);
-  }, this);
+  // TODO: Add fix common spelling mistakes
+
+  // Space out punctuation
+  _message = _message.replace("!", " ! ");
+  _message = _message.replace("?", " ? ");
+
+  // Get rid of contractions
+  for(var contraction in contractionsDB) {
+    let key = contraction;
+    let val = contractionsDB[contraction];
+
+    _message = _message.replace(key, val);
+  }
+
+  return _message;
 }
