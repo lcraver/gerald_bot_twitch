@@ -97,12 +97,6 @@ module.exports = [{
   types: ['Chat'],
   regex: new RegExp(/^!points$/),
   action: function(client, channel, userstate, message, self) {
-    /*if(Runtime.helpers.IsOwner(userstate))
-      client.action("limestudios", String.format("Bow Down to the owner! {0}", userstate["username"]));
-    else if(Runtime.helpers.IsMod(userstate))
-      client.action("limestudios", String.format("Bow Down to the mods! {0}", userstate["username"]));
-    else*/
-
     let user = userstate["username"];
     let points = GetPointsForUser(user);
 
@@ -122,10 +116,7 @@ module.exports = [{
     let userSelected = message.substr(message.indexOf(" @") + 2);
     let points = GetPointsForUser(userSelected);
 
-    if(points == 1)
-      client.action("limestudios", String.format("@{0} user {1} has {2} point!", user, userSelected, points));
-    else
-      client.action("limestudios", String.format("@{0} user {1} has {2} points!", user, userSelected, points));
+    client.action("limestudios", String.format("@{0} user {1} has {2} point" + ((points != 1) ? "s" : "") +"!", user, userSelected, points));
   }
 },
 {
@@ -141,7 +132,7 @@ module.exports = [{
       let chatParams = Runtime.helpers.GetChatParams(message);
 
       let userSelected = chatParams["users"][0];
-      let userPointAmount = parseInt(chatParams["params"][1]);   
+      let userPointAmount = parseInt(chatParams["params"][2]);   
 
       let pointsObj = GetPointDB();
       
@@ -149,16 +140,13 @@ module.exports = [{
 
       SetPointDB(pointsObj);
 
-      if(userPointAmount == 1)
-        client.action("limestudios", String.format("@{1} user {0} has given you {2} point! You now have {3} points!", user, userSelected, userPointAmount, GetPointsForUser(userSelected.toLowerCase())));
-      else
-        client.action("limestudios", String.format("@{1} user {0} has given you {2} points! You now have {3} points!", user, userSelected, userPointAmount, GetPointsForUser(userSelected.toLowerCase())));
+      client.action("limestudios", String.format("@{1} user {0} has added {2} point" + ((userPointAmount != 1) ? "s" : "") + " to your amount! You now have {3} point" + ((GetPointsForUser(userSelected.toLowerCase()) != 1) ? "s" : "") + "!", user, userSelected, userPointAmount, GetPointsForUser(userSelected.toLowerCase())));
     }
   }
 },
 {
 	name: '!points @{user} set {amount}',
-	help: 'Adds points to another users points',
+	help: 'Set another users points',
   types: ['Chat'],
   regex: new RegExp(/^!points\s+@[A-Za-z0-9]+\s+set\s+[-0-9]+$/),
   action: function(client, channel, userstate, message, self) {
@@ -169,18 +157,13 @@ module.exports = [{
       let chatParams = Runtime.helpers.GetChatParams(message);
 
       let userSelected = chatParams["users"][0];
-      let userPointAmount = parseInt(chatParams["params"][1]);   
+      let userPointAmount = parseInt(chatParams["params"][2]);   
 
       let pointsObj = GetPointDB();
-      
       pointsObj["points"][userSelected.toLowerCase()] = userPointAmount;
-
       SetPointDB(pointsObj);
 
-      if(userPointAmount == 1)
-        client.action("limestudios", String.format("@{1} user {0} has given you {2} point! You now have {3} points!", user, userSelected, userPointAmount, GetPointsForUser(userSelected.toLowerCase())));
-      else
-        client.action("limestudios", String.format("@{1} user {0} has given you {2} points! You now have {3} points!", user, userSelected, userPointAmount, GetPointsForUser(userSelected.toLowerCase())));
+      client.action("limestudios", String.format("@{1} user {0} has set your points to {2}! You now have {3} point" + ((GetPointsForUser(userSelected.toLowerCase()) != 1) ? "s" : "") + "!", user, userSelected, userPointAmount, GetPointsForUser(userSelected.toLowerCase())));
     }
   }
 }];
