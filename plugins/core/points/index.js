@@ -19,11 +19,11 @@ module.exports = [{
     for(let userIndex = 0; userIndex < users.length; userIndex++)
     {
       let user = users[userIndex];
-      let tmpPoints = pointsObj["points"][user];
+      let tmpPoints = pointsObj["points"][user.toLowerCase()];
       if(tmpPoints <= pluginSettings.purgePointMin)
   		{
         Runtime.logger.Error("Purged: " + user + " ["+tmpPoints+"]");
-  			delete pointsObj["points"][user];
+  			delete pointsObj["points"][user.toLowerCase()];
   		}
     }
 
@@ -171,7 +171,7 @@ module.exports = [{
 function GetPointsForUser(_user) {
   let pointsObj = JSON.parse(Runtime.brain.get("points"));
   if(_user in pointsObj["points"])
-    return parseInt(pointsObj["points"][_user]);
+    return parseInt(pointsObj["points"][_user.toLowerCase()]);
   else 
     return 0;
 }

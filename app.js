@@ -9,6 +9,7 @@ const Helpers = require('./utils/Helpers');
 const ChatBot = require('./utils/ChatBot');
 const TMI = require('tmi.js');
 const clearRequire = require('clear-require');
+var request = require('request');
 require('./utils/Prototypes');
 
 // Build the initial runtime object
@@ -21,6 +22,7 @@ Runtime.logger = Logger;
 Runtime.loader = Loader;
 Runtime.helpers = Helpers;
 Runtime.tmi = TMI;
+Runtime.request = request;
 Runtime.clearRequire = clearRequire;
 Runtime.botAddress = "@" + Runtime.credentials.identity.username + " ";
 

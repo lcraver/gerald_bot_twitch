@@ -13,8 +13,8 @@ const commandTypes = [
 
 	'Hosted', // Channel was hosted
 	'Cheer', // Someone cheered
-	'Sub', // Somone subbed
-	'ReSub' // Somone resubbed
+	'Sub', // Someone subbed
+	'ReSub' // Someone resubbed
 ];
 
 class Loader {

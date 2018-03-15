@@ -1,3 +1,4 @@
 node_modules
 brain
 settings/credentials.js
+plugins/custom/*/*.json
