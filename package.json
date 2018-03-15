@@ -1,6 +1,6 @@
 {
   "name": "gerald_bot_twitch",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Twitch version of Gerald Bot.",
   "main": "app.js",
   "scripts": {
