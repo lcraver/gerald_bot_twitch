@@ -1,0 +1,27 @@
+body {
+    background: white;
+    margin: 0;
+    height: 100vh;
+}
+
+.grid_wrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.col_grid {
+    width: 100vmin;
+    height: 100vmin;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    /*grid-gap: 10px;*/
+    grid-auto-rows: 10vmin;
+}
+
+.pixel {
+    display: block;
+    background: white;
+    border: 1px solid black;
+}

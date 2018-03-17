@@ -1,3 +1,4 @@
 {
-    "debug": "true"
+    "debug": "true",
+    "app_port": "8000"
 }

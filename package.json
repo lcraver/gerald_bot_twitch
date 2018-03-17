@@ -30,6 +30,7 @@
   "homepage": "https://github.com/lcraver/gerald_bot_twitch#readme",
   "dependencies": {
     "clear-require": "^2.0.0",
+    "express": "^4.16.3",
     "moment": "^2.18.1",
     "node-persist": "^2.0.10",
     "path": "^0.12.7",

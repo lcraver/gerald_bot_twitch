@@ -19,11 +19,11 @@ module.exports = [{
     for(let userIndex = 0; userIndex < users.length; userIndex++)
     {
       let user = users[userIndex];
-      let tmpPoints = pointsObj["points"][user.toLowerCase()];
+      let tmpPoints = pointsObj["points"][user];
       if(tmpPoints <= pluginSettings.purgePointMin)
   		{
         Runtime.logger.Error("Purged: " + user + " ["+tmpPoints+"]");
-  			delete pointsObj["points"][user.toLowerCase()];
+  			delete pointsObj["points"][user];
   		}
     }
 
@@ -134,13 +134,9 @@ module.exports = [{
       let userSelected = chatParams["users"][0];
       let userPointAmount = parseInt(chatParams["params"][2]);   
 
-      let pointsObj = GetPointDB();
-      
-      pointsObj["points"][userSelected.toLowerCase()] = GetPointsForUser(userSelected.toLowerCase()) + userPointAmount;
+      SetUserPoint(userSelected, GetPointsForUser(userSelected) + userPointAmount);
 
-      SetPointDB(pointsObj);
-
-      client.action("limestudios", String.format("@{1} user {0} has added {2} point" + ((userPointAmount != 1) ? "s" : "") + " to your amount! You now have {3} point" + ((GetPointsForUser(userSelected.toLowerCase()) != 1) ? "s" : "") + "!", user, userSelected, userPointAmount, GetPointsForUser(userSelected.toLowerCase())));
+      client.action("limestudios", String.format("@{1} user {0} has added {2} point" + ((userPointAmount != 1) ? "s" : "") + " to your amount! You now have {3} point" + ((GetPointsForUser(userSelected) != 1) ? "s" : "") + "!", user, userSelected, userPointAmount, GetPointsForUser(userSelected)));
     }
   }
 },
@@ -159,19 +155,18 @@ module.exports = [{
       let userSelected = chatParams["users"][0];
       let userPointAmount = parseInt(chatParams["params"][2]);   
 
-      let pointsObj = GetPointDB();
-      pointsObj["points"][userSelected.toLowerCase()] = userPointAmount;
-      SetPointDB(pointsObj);
+      SetUserPoint(userSelected, userPointAmount);
 
-      client.action("limestudios", String.format("@{1} user {0} has set your points to {2}! You now have {3} point" + ((GetPointsForUser(userSelected.toLowerCase()) != 1) ? "s" : "") + "!", user, userSelected, userPointAmount, GetPointsForUser(userSelected.toLowerCase())));
+      client.action("limestudios", String.format("@{1} user {0} has set your points to {2}! You now have {3} point" + ((GetPointsForUser(userSelected) != 1) ? "s" : "") + "!", user, userSelected, userPointAmount, GetPointsForUser(userSelected)));
     }
   }
 }];
 
 function GetPointsForUser(_user) {
+  _user = _user.toLowerCase();
   let pointsObj = JSON.parse(Runtime.brain.get("points"));
   if(_user in pointsObj["points"])
-    return parseInt(pointsObj["points"][_user.toLowerCase()]);
+    return parseInt(pointsObj["points"][_user]);
   else 
     return 0;
 }
@@ -182,7 +177,7 @@ function GetPointDB() {
   if(!pointsObj)
   {
     pointsObj = {
-      "points": [],
+      "points": {},
       "active": []
     };
 
@@ -194,4 +189,11 @@ function GetPointDB() {
 
 function SetPointDB(_new) {
   Runtime.brain.set("points", JSON.stringify(_new));
+}
+
+function SetUserPoint(_user, _new) {
+  _user = _user.toLowerCase();
+  let pointsObj = GetPointDB();
+  pointsObj["points"][_user] = _new;
+  SetPointDB(pointsObj);
 }

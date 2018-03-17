@@ -28,15 +28,12 @@ module.exports = [
         json: true,
         body: myJSONObject
       }, function (error, response, body) {
-        console.log(response);
 
         if(!error)
         {
           client.action("limestudios", String.format("{0} has set light to {1}", user, newColor));
 
-          let pointsObj = GetPointDB();
-          pointsObj["points"][user.toLowerCase()] = GetPointsForUser(user.toLowerCase()) - 5;
-          SetPointDB(pointsObj);
+          SetUserPoint(user, GetPointsForUser(user) - 5);
         }
         else
         {
@@ -55,11 +52,12 @@ module.exports = [
 }];
 
 function GetPointsForUser(_user) {
+  _user = _user.toLowerCase();
   let pointsObj = JSON.parse(Runtime.brain.get("points"));
   if(_user in pointsObj["points"])
-    return parseInt(pointsObj["points"][_user.toLowerCase()]);
+      return parseInt(pointsObj["points"][_user]);
   else 
-    return 0;
+      return 0;
 }
 
 function GetPointDB() {
@@ -67,12 +65,12 @@ function GetPointDB() {
 
   if(!pointsObj)
   {
-    pointsObj = {
-      "points": [],
+      pointsObj = {
+      "points": {},
       "active": []
-    };
+      };
 
-    Runtime.brain.set("points", JSON.stringify(pointsObj));
+      Runtime.brain.set("points", JSON.stringify(pointsObj));
   }
 
   return pointsObj;
@@ -80,4 +78,11 @@ function GetPointDB() {
 
 function SetPointDB(_new) {
   Runtime.brain.set("points", JSON.stringify(_new));
+}
+
+function SetUserPoint(_user, _new) {
+  _user = _user.toLowerCase();
+  let pointsObj = GetPointDB();
+  pointsObj["points"][_user] = _new;
+  SetPointDB(pointsObj);
 }

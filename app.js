@@ -10,6 +10,9 @@ const ChatBot = require('./utils/ChatBot');
 const TMI = require('tmi.js');
 const clearRequire = require('clear-require');
 var request = require('request');
+var express = require('express');
+const app = express()
+app.listen(Settings["app_port"], () => console.log('Example app listening on port '+Settings["app_port"]+'!'))
 require('./utils/Prototypes');
 
 // Build the initial runtime object
@@ -23,6 +26,8 @@ Runtime.loader = Loader;
 Runtime.helpers = Helpers;
 Runtime.tmi = TMI;
 Runtime.request = request;
+Runtime.express = express;
+Runtime.app = app;
 Runtime.clearRequire = clearRequire;
 Runtime.botAddress = "@" + Runtime.credentials.identity.username + " ";
 
